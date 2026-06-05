@@ -27,7 +27,7 @@ class PCA:
     def transform(self, X):
         X_scaled = self.scaler.transform(X[:, 1:])
         X_transformed =  np.dot(X_scaled, self.VT.T[:, :self.n_components])
-        return np.c_[X_transformed, X[:, 0]] # добавляем id обратно в массив
+        return np.c_[X[:, 0], X_transformed] # добавляем id обратно в массив
     
     def get_sigma(self):
         return self.Sigma

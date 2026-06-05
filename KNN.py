@@ -8,7 +8,8 @@ class KNN:
         distances = []
         for i in range(len(playlist)):
             id = playlist[i][0]
-            distance = np.linalg.norm(playlist[i][1:] - current)
+            print(id)
+            distance = np.linalg.norm(playlist[i][1:].reshape(1, -1) - current[0][1:])
             distances.append([id, distance])
         
         distances = np.array(distances)

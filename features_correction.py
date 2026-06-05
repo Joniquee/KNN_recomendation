@@ -10,8 +10,6 @@ def get_correct_features():
 
     features_values = features.values.astype(np.float64)
 
-    print(features_values)
-
-    return features_values
+    return features_values #возвращаются с id
 
 get_correct_features()
