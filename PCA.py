@@ -4,15 +4,25 @@ from sklearn.preprocessing import StandardScaler
 
 
 class PCA:
-    def __init__(self, n_components):
+    def __init__(self, n_components, batch_size=500):
         self.n_components = n_components
+        self.batch_size = batch_size
     
 
     def fit(self, X): #X - NP массив с id и фичами
         self.scaler = StandardScaler()
         X_scaled = self.scaler.fit_transform(X[:, 1:])
 
-        U, Sigma, VT = np.linalg.svd(X_scaled, full_matrices=False)
+        n_features = X_scaled.shape[1]
+        cov_matrix = np.zeros((n_features, n_features))
+
+        for i in range(0, len(X_scaled.shape[0]), self.batch_size):
+            batch = X_scaled[i:i+self.batch_size]
+            cov_matrix = batch.T.dot(batch)
+        
+        cov_matrix /= len(X_scaled) - 1
+
+        U, Sigma, VT = np.linalg.svd(cov_matrix, full_matrices=False)
 
         self.full_Sigma = Sigma.copy()
 

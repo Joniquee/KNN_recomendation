@@ -16,10 +16,11 @@ app = FastAPI()
 
 load_dotenv() 
 
-TRACKS_PATH = os.getenv('TRACKS_PATH', 'H:/KNN_recomendation/fma_small/fma_small')
+TRACKS_PATH = os.getenv('TRACKS_PATH', 'H:/KNN_recomendation/data/fma_small/fma_small')
+API_URL = os.getenv('API_URL')
 
 origins = [
-    "http://localhost:8000",
+    API_URL,
 ]
 
 app.add_middleware(
@@ -47,7 +48,7 @@ def get_audio(track_id: str):
     return FileResponse(path, media_type='audio/mpeg')
 
 
-pca = PCA(300)
+pca = PCA(300, batch_size=200)
 features = get_init_features()
 transformed_features = pca.fit_transform(features)
 

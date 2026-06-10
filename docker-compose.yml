@@ -7,4 +7,5 @@ services:
       - ./data:/app/data
     env_file:
       - .env
-    restart: unless-stopped
+    mem_limit: 6g 
+    restart: "no"
