@@ -8,8 +8,15 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import random
+import queue
+import os
+from dotenv import load_dotenv
 
 app = FastAPI()
+
+load_dotenv() 
+
+TRACKS_PATH = os.getenv('TRACKS_PATH', 'H:/KNN_recomendation/fma_small/fma_small')
 
 origins = [
     "http://localhost:8000",
@@ -34,9 +41,10 @@ def get_track_info(track_id: str):
 @app.get('/audio/{track_id}')
 def get_audio(track_id: str):
     folder = track_id[:3]
-    path = f'H:/KNN_recomendation/fma_small/fma_small/{folder}/{track_id}.mp3'
-    try: FileResponse(path, media_type='audio/mpeg')
-    except Exception: raise HTTPException(status_code=404, detail="Track not found")
+    path = f'{TRACKS_PATH}/{folder}/{track_id}.mp3'
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Track not found")
+    return FileResponse(path, media_type='audio/mpeg')
 
 
 pca = PCA(300)
