@@ -1,8 +1,15 @@
 import pandas as pd
 import numpy as np
+import os
+from dotenv import load_dotenv
 
-tracks_metadata = pd.read_csv('H:/KNN_recomendation/fma_metadata/fma_metadata/raw_tracks.csv')
-tracks_features = pd.read_csv('H:/KNN_recomendation/fma_metadata/fma_metadata/features.csv')
+load_dotenv()
+
+RAW_TRACKS = os.getenv('RAW_TRACKS')
+FEATURES_CSV = os.getenv('FEATURES_CSV')
+
+tracks_metadata = pd.read_csv(RAW_TRACKS)
+tracks_features = pd.read_csv(FEATURES_CSV)
 print(tracks_metadata.columns)
 
 def select_track_urls_by_ids(ids):

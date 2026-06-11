@@ -4,6 +4,7 @@ from KNN import KNN
 from features import get_correct_features
 import numpy as np
 from track_selection import select_track_urls_by_ids, tracks_metadata
+from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -42,7 +43,7 @@ def get_track_info(track_id: str):
 @app.get('/audio/{track_id}')
 def get_audio(track_id: str):
     folder = track_id[:3]
-    path = f'{TRACKS_PATH}/{folder}/{track_id}.mp3'
+    path = Path(f'{TRACKS_PATH}/{folder}/{track_id}.mp3')
     if not path.exists():
         raise HTTPException(status_code=404, detail="Track not found")
     return FileResponse(path, media_type='audio/mpeg')

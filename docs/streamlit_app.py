@@ -6,7 +6,7 @@ import os
 
 load_dotenv()
 
-API_URL = os.getenv('API_URL', 'http://localhost:8000')
+BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:8000')
 DEFAULT_TRACK_ID = os.getenv('DEFAULT_TRACK_ID', '051006')
 
 st.set_page_config(
@@ -82,11 +82,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ── API helpers ────────────────────────────────────────────────────────────────
+# ── BACKEND helpers ────────────────────────────────────────────────────────────────
 
 def get_track_info(track_id: str) -> dict:
     try:
-        r = requests.get(f"{API_URL}/track_info/{track_id}", timeout=5)
+        r = requests.get(f"{BACKEND_URL}/track_info/{track_id}", timeout=5)
         return r.json() if r.ok else {}
     except Exception:
         return {}
@@ -94,7 +94,7 @@ def get_track_info(track_id: str) -> dict:
 def load_recommendations(track_id: str) -> list:
     try:
         r = requests.get(
-            f"{API_URL}/next_track",
+            f"{BACKEND_URL}/next_track",
             params={"curent_track_id": track_id},
             timeout=20,
         )
@@ -131,7 +131,7 @@ info = get_track_info(current_id)
 title  = info.get("title")  or f"Track {current_id}"
 artist = info.get("artist") or "Unknown Artist"
 img_url = info.get("image_url") or ""
-audio_url = f"{API_URL}/audio/{current_id}"
+audio_url = f"{BACKEND_URL}/audio/{current_id}"
 
 # ── Track card ─────────────────────────────────────────────────────────────────
 
