@@ -7,6 +7,7 @@ import os
 load_dotenv()
 
 BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:8000')
+PUBLIC_BACKEND_URL = os.getenv('PUBLIC_BACKEND_URL', BACKEND_URL)
 DEFAULT_TRACK_ID = os.getenv('DEFAULT_TRACK_ID', '051006')
 
 st.set_page_config(
@@ -131,7 +132,7 @@ info = get_track_info(current_id)
 title  = info.get("title")  or f"Track {current_id}"
 artist = info.get("artist") or "Unknown Artist"
 img_url = info.get("image_url") or ""
-audio_url = f"{BACKEND_URL}/audio/{current_id}"
+audio_url = f"{PUBLIC_BACKEND_URL}/audio/{current_id}"
 
 # ── Track card ─────────────────────────────────────────────────────────────────
 
