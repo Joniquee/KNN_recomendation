@@ -7,5 +7,18 @@ services:
       - ./data:/app/data
     env_file:
       - .env
-    mem_limit: 6g 
+    mem_limit: 6g
+    restart: "no"
+
+  frontend:
+    build: .
+    command: streamlit run docs/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - BACKEND_URL=http://localhost:8000
+    depends_on:
+      - api
     restart: "no"
